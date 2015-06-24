@@ -1,13 +1,14 @@
-package geoip
+package main
 
 import (
 	"fmt"
 	"log"
 	"net"
 	"net/http"
+	"os"
 
-	"github.com/gocraft/web"
-	"github.com/oschwald/geoip2-golang"
+	"geoip/Godeps/_workspace/src/github.com/gocraft/web"
+	"geoip/Godeps/_workspace/src/github.com/oschwald/geoip2-golang"
 )
 
 type Context struct {
@@ -40,10 +41,12 @@ func (ctx *Context) LookUpCountryForIp(rw web.ResponseWriter, req *web.Request) 
 
 func main() {
 
+	port := os.Getenv("PORT")
+
 	router := web.New(Context{}).
 		Middleware(web.LoggerMiddleware).
 		Middleware((*Context).OpenMaxMindDB).
-		Get("/ccfip/:ipstring", (*Context).LookUpCountryForIp)
+		Get("/:ipstring", (*Context).LookUpCountryForIp)
 
-	http.ListenAndServe("localhost:3000", router) // Start the server!
+	http.ListenAndServe(":"+port, router)
 }
