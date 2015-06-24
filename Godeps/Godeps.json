@@ -14,6 +14,11 @@
 			"ImportPath": "github.com/oschwald/geoip2-golang",
 			"Comment": "v0.1.0-14-g0369897",
 			"Rev": "0369897636fc8c7b2dad8f32d4fd44cb36e482a2"
+		},
+		{
+			"ImportPath": "github.com/oschwald/maxminddb-golang",
+			"Comment": "v0.2.0-22-g339f38b",
+			"Rev": "339f38bd3d04f4a2d842b63c35db8e62eb616618"
 		}
 	]
 }
