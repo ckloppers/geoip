@@ -11,6 +11,8 @@ import (
 	"geoip-service/Godeps/_workspace/src/github.com/oschwald/geoip2-golang"
 )
 
+var port string
+
 type Context struct {
 	db *geoip2.Reader
 }
