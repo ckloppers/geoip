@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"os"
 
-	"geoip/Godeps/_workspace/src/github.com/gocraft/web"
-	"geoip/Godeps/_workspace/src/github.com/oschwald/geoip2-golang"
+	"geoip-service/Godeps/_workspace/src/github.com/gocraft/web"
+	"geoip-service/Godeps/_workspace/src/github.com/oschwald/geoip2-golang"
 )
 
 type Context struct {
