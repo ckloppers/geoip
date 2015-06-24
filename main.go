@@ -41,7 +41,7 @@ func (ctx *Context) LookUpCountryForIp(rw web.ResponseWriter, req *web.Request) 
 
 func (ctx *Context) LandingPage(rw web.ResponseWriter, req *web.Request) {
 
-	fmt.Fprint(rw, "Hello from Flynn on port ", os.Getenv("PORT"), " from container ", os.Getenv("HOSTNAME"), " You can get country code for ip by doing a GET request on ", os.Getenv("HOSTNAME"), "/<ip>")
+	fmt.Fprint(rw, "Hello from Flynn on port ", os.Getenv("PORT"), " from container ", os.Getenv("HOSTNAME"), " \nYou can get country code for ip by doing a GET request on ", os.Getenv("HOSTNAME"), "/<ip>")
 }
 
 func main() {
