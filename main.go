@@ -39,6 +39,11 @@ func (ctx *Context) LookUpCountryForIp(rw web.ResponseWriter, req *web.Request) 
 
 }
 
+func (ctx *Context) LandingPage(rw web.ResponseWriter, req *web.Request) {
+
+	fmt.Fprint(rw, "Hello from Flynn on port %s from container %s\nYou can get country code for ip by doing a GET request on %s:%s/<ip>", port, os.Getenv("HOSTNAME"), os.Getenv("HOSTNAME"), port)
+}
+
 func main() {
 
 	port := os.Getenv("PORT")
@@ -46,6 +51,7 @@ func main() {
 	router := web.New(Context{}).
 		Middleware(web.LoggerMiddleware).
 		Middleware((*Context).OpenMaxMindDB).
+		Get("/", (*Context).LandingPage).
 		Get("/:ipstring", (*Context).LookUpCountryForIp)
 
 	http.ListenAndServe(":"+port, router)
