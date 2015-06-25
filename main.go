@@ -55,7 +55,10 @@ func (ctx *Context) LandingPage(rw web.ResponseWriter, req *web.Request) {
 		"You can get country code for ip by doing a GET request on <this_host_url>/<ip>\n\n",
 		"Example: http://geoip-service.rk44.flynnhub.com/3.3.3.3\n ",
 		"..this will return a JSON result.\n\n",
-		"{\"IP\":\"3.3.3.3\",\"ISOCode\":\"US\",\"ContainerID\":\"7ed8050a0106470cb9874bc681d512f1\"}")
+		"{\"IP\":\"3.3.3.3\",\"ISOCode\":\"US\",\"ContainerID\":\"7ed8050a0106470cb9874bc681d512f1\"} \n\n\n\n",
+		"powered by https://flynn.io & http://aws.amazon.com\n\n",
+		"Source code: https://github.com/ckloppers/geoip-service\n\n"
+		"Contact: Corné Kloppers - ckloppers@gmail.com")
 }
 
 func main() {
