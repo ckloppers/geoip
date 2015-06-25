@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net"
@@ -10,6 +11,12 @@ import (
 	"geoip-service/Godeps/_workspace/src/github.com/gocraft/web"
 	"geoip-service/Godeps/_workspace/src/github.com/oschwald/geoip2-golang"
 )
+
+type GeoipResult struct {
+	IP          string
+	ISOCode     string
+	ContainerID string
+}
 
 type Context struct {
 	db *geoip2.Reader
@@ -34,19 +41,22 @@ func (ctx *Context) LookUpCountryForIp(rw web.ResponseWriter, req *web.Request) 
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	resultJson, _ := json.Marshal(GeoipResult{IP: req.PathParams["ipstring"], ISOCode: record.Country.IsoCode, ContainerID: os.Getenv("HOSTNAME")})
+
+	fmt.Fprint(rw, string(resultJson))
 	//fmt.Printf(rw, "IP: ", req.PathParams["ipstring"], "ISO country code: %v\n", record.Country.IsoCode)
-	fmt.Fprint(rw, "IP: ", req.PathParams["ipstring"], "  ISO country code: ", record.Country.IsoCode)
 
 }
 
 func (ctx *Context) LandingPage(rw web.ResponseWriter, req *web.Request) {
 
-	fmt.Fprint(rw, "Hello from Flynn on port ", os.Getenv("PORT"), " from container ", os.Getenv("HOSTNAME"), " \nYou can get country code for ip by doing a GET request on ", os.Getenv("HOSTNAME"), "/<ip>")
+	fmt.Fprint(rw, "Hello from Flynn \nYou can get country code for ip by doing a GET request on /<ip>")
 }
 
 func main() {
 
-	port := os.Getenv("PORT")
+	//port := os.Getenv("PORT")
 
 	router := web.New(Context{}).
 		Middleware(web.LoggerMiddleware).
@@ -55,4 +65,5 @@ func main() {
 		Get("/:ipstring", (*Context).LookUpCountryForIp)
 
 	http.ListenAndServe(":"+port, router)
+	//http.ListenAndServe(":3000", router)
 }
