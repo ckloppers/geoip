@@ -13,9 +13,9 @@ import (
 )
 
 type GeoipResult struct {
-	IP          string
-	ISOCode     string
-	ContainerID string
+	IP             string
+	ISOCountryCode string
+	ContainerID    string
 }
 
 type Context struct {
@@ -42,7 +42,7 @@ func (ctx *Context) LookUpCountryForIp(rw web.ResponseWriter, req *web.Request) 
 		log.Fatal(err)
 	}
 
-	resultJson, _ := json.Marshal(GeoipResult{IP: req.PathParams["ipstring"], ISOCode: record.Country.IsoCode, ContainerID: os.Getenv("HOSTNAME")})
+	resultJson, _ := json.Marshal(GeoipResult{IP: req.PathParams["ipstring"], ISOCountryCode: record.Country.IsoCode, ContainerID: os.Getenv("HOSTNAME")})
 
 	fmt.Fprint(rw, string(resultJson))
 	//fmt.Printf(rw, "IP: ", req.PathParams["ipstring"], "ISO country code: %v\n", record.Country.IsoCode)
@@ -51,7 +51,11 @@ func (ctx *Context) LookUpCountryForIp(rw web.ResponseWriter, req *web.Request) 
 
 func (ctx *Context) LandingPage(rw web.ResponseWriter, req *web.Request) {
 
-	fmt.Fprint(rw, "Hello from Free GeoIP Country Lookup Service that use the MaxMind GeoIP database. \n\nYou can get country code for ip by doing a GET request on <this_host_url>/<ip>\n\n Example: http://geoip-service.rk44.flynnhub.com/3.3.3.3\n this will return a JSON result.\n\n {\"IP\":\"3.3.3.3\",\"ISOCode\":\"US\",\"ContainerID\":\"7ed8050a0106470cb9874bc681d512f1\"}")
+	fmt.Fprint(rw, "Hello from Free GeoIP Country Lookup Service that use the MaxMind GeoIP database. \n\n",
+		"You can get country code for ip by doing a GET request on <this_host_url>/<ip>\n\n",
+		"Example: http://geoip-service.rk44.flynnhub.com/3.3.3.3\n ",
+		"..this will return a JSON result.\n\n",
+		"{\"IP\":\"3.3.3.3\",\"ISOCode\":\"US\",\"ContainerID\":\"7ed8050a0106470cb9874bc681d512f1\"}")
 }
 
 func main() {
