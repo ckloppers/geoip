@@ -15,6 +15,7 @@ import (
 type GeoipResult struct {
 	IP             string
 	ISOCountryCode string
+	CountryName    string
 	ContainerID    string
 }
 
@@ -44,6 +45,7 @@ func (ctx *Context) LookUpCountryForIp(rw web.ResponseWriter, req *web.Request) 
 
 	resultJson, _ := json.Marshal(GeoipResult{IP: req.PathParams["ipstring"],
 		ISOCountryCode: record.Country.IsoCode,
+		CountryName:    record.Country.Names[0],
 		ContainerID:    os.Getenv("HOSTNAME")})
 
 	fmt.Fprint(rw, string(resultJson))
