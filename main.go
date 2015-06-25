@@ -70,8 +70,8 @@ func (ctx *Context) LookUpCountryForIp(rw web.ResponseWriter, req *web.Request) 
 // Fancy landing page :-)
 func (ctx *Context) LandingPage(rw web.ResponseWriter, req *web.Request) {
 
-	fmt.Fprint(rw, "Hello from Free GeoIP Country Lookup Service that use the MaxMind GeoIP database. \n\n",
-		"You can get country code for ip by doing a GET request on <this_host_url>/<ip>\n\n",
+	fmt.Fprint(rw, "Hello, from the \"Free\" GeoIP Country Lookup Service that uses the MaxMind GeoIP lite database. \n\n",
+		"You can get the ISO Country Code for a specified IP, by doing a GET request on this URL <this_host_url>/<ip>\n\n",
 		"Example: http://geoip-service.rk44.flynnhub.com/3.3.3.3\n ",
 		"..this will return a JSON result.\n\n",
 		"{\"IP\":\"3.3.3.3\",\"ISOCode\":\"US\",\"ContainerID\":\"7ed8050a0106470cb9874bc681d512f1\"} \n\n\n\n",
