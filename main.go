@@ -56,14 +56,12 @@ func (ctx *Context) LandingPage(rw web.ResponseWriter, req *web.Request) {
 
 func main() {
 
-	//port := os.Getenv("PORT")
-
 	router := web.New(Context{}).
 		Middleware(web.LoggerMiddleware).
 		Middleware((*Context).OpenMaxMindDB).
 		Get("/", (*Context).LandingPage).
 		Get("/:ipstring", (*Context).LookUpCountryForIp)
 
-	http.ListenAndServe(":"+port, router)
+	http.ListenAndServe(":"+os.Getenv("PORT"), router)
 	//http.ListenAndServe(":3000", router)
 }
