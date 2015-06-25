@@ -42,7 +42,10 @@ func (ctx *Context) LookUpCountryForIp(rw web.ResponseWriter, req *web.Request) 
 		log.Fatal(err)
 	}
 
-	resultJson, _ := json.Marshal(GeoipResult{IP: req.PathParams["ipstring"], ISOCountryCode: record.Country.IsoCode, ContainerID: os.Getenv("HOSTNAME")})
+	resultJson, _ := json.Marshal(GeoipResult{IP: req.PathParams["ipstring"],
+		ISOCountryCode: record.Country.IsoCode,
+		record.
+			ContainerID: os.Getenv("HOSTNAME")})
 
 	fmt.Fprint(rw, string(resultJson))
 	//fmt.Printf(rw, "IP: ", req.PathParams["ipstring"], "ISO country code: %v\n", record.Country.IsoCode)
@@ -59,7 +62,7 @@ func (ctx *Context) LandingPage(rw web.ResponseWriter, req *web.Request) {
 		"powered by... \n",
 		"Flynn docker PaaS - https://flynn.io\n",
 		"Amazon AWS - http://aws.amazon.com\n",
-		"MaxMind - http://dev.maxmind.com/geoip/legacy/geolite/\n\n",
+		"MaxMind - http://dev.maxmind.com/geoip/geoip2/geolite2/\n\n",
 		"Source code on GitHub - https://github.com/ckloppers/geoip-service\n",
 		"Contact: Corné Kloppers - ckloppers@gmail.com")
 }
