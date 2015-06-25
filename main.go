@@ -51,8 +51,7 @@ func (ctx *Context) LookUpCountryForIp(rw web.ResponseWriter, req *web.Request) 
 
 func (ctx *Context) LandingPage(rw web.ResponseWriter, req *web.Request) {
 
-	fmt.Fprint(rw, """Hello from GeoIP-Service \n This API use the free database from MaxMind (http://dev.maxmind.com/geoip/legacy/geolite/)""")
-	fmt.Fprint(rw, "You can get country code for ip by doing a GET request on host/<ip>")
+	fmt.Fprint(rw, "Hello from GeoIP-Service \n This API use the free database from MaxMind - http://dev.maxmind.com/geoip/legacy/geolite \n You can get country code for ip by doing a GET request on host/<ip> ")
 }
 
 func main() {
@@ -63,6 +62,6 @@ func main() {
 		Get("/", (*Context).LandingPage).
 		Get("/:ipstring", (*Context).LookUpCountryForIp)
 
-	http.ListenAndServe(":"+os.Getenv("PORT"), router)
-	//http.ListenAndServe(":3000", router)
+	//http.ListenAndServe(":"+os.Getenv("PORT"), router)
+	http.ListenAndServe(":3000", router)
 }
