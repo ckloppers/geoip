@@ -1,5 +1,16 @@
 package main
 
+//
+// Corne Kloppers
+// 25 June 2015
+// Quick hack job to read MaxMind GeoIP database and get a ISO Country code based on IP
+// This also follow a patern to be able to deployed on AWS using Flynn. Heroku like PaaS
+//
+// Hack alert - Don't email me if things don't work :)
+// ckloppers@gmail.com
+//
+
+// Go imports
 import (
 	"encoding/json"
 	"fmt"
@@ -12,17 +23,19 @@ import (
 	"geoip-service/Godeps/_workspace/src/github.com/oschwald/geoip2-golang"
 )
 
+// JSON strcut format
 type GeoipResult struct {
 	IP             string
 	ISOCountryCode string
-	CountryName    string
 	ContainerID    string
 }
 
+// Context used within App
 type Context struct {
 	db *geoip2.Reader
 }
 
+// Read MaxMind database file
 func (ctx *Context) OpenMaxMindDB(rw web.ResponseWriter, req *web.Request, next web.NextMiddlewareFunc) {
 	db, err := geoip2.Open("GeoLite2-Country.mmdb")
 	if err != nil {
@@ -34,6 +47,7 @@ func (ctx *Context) OpenMaxMindDB(rw web.ResponseWriter, req *web.Request, next 
 	next(rw, req)
 }
 
+// Main working function. Parse IP from request object and read DB to get ISOCode for country and contruct JSON result
 func (ctx *Context) LookUpCountryForIp(rw web.ResponseWriter, req *web.Request) {
 
 	// If you are using strings that may be invalid, check that ip is not nil
@@ -43,6 +57,7 @@ func (ctx *Context) LookUpCountryForIp(rw web.ResponseWriter, req *web.Request) 
 		log.Fatal(err)
 	}
 
+	// Mashall result JSON with data in it
 	resultJson, _ := json.Marshal(GeoipResult{IP: req.PathParams["ipstring"],
 		ISOCountryCode: record.Country.IsoCode,
 		ContainerID:    os.Getenv("HOSTNAME")})
@@ -52,6 +67,7 @@ func (ctx *Context) LookUpCountryForIp(rw web.ResponseWriter, req *web.Request) 
 
 }
 
+// Fancy landing page :-)
 func (ctx *Context) LandingPage(rw web.ResponseWriter, req *web.Request) {
 
 	fmt.Fprint(rw, "Hello from Free GeoIP Country Lookup Service that use the MaxMind GeoIP database. \n\n",
@@ -67,6 +83,7 @@ func (ctx *Context) LandingPage(rw web.ResponseWriter, req *web.Request) {
 		"Contact: Corné Kloppers - ckloppers@gmail.com")
 }
 
+// Main entry
 func main() {
 
 	router := web.New(Context{}).
